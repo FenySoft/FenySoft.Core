@@ -1,6 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenySoft.Core", "FenySoft.Core\FenySoft.Core.csproj", "{2E4486F5-1797-4CBF-B224-952A9A31D216}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{6B6A902B-5E9E-4FB5-B7A0-9953E4FC648F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{FD4B889C-7615-4912-904A-23A0362DE1D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{831E6AB7-5ED9-4F16-ACF5-8884CDC4C125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenySoft.Core", "Modules\FenySoft.Core\FenySoft.Core.csproj", "{3E762E22-BA96-4C64-A5F7-02322AEE1953}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FenySoft.Core.Test", "Tests\FenySoft.Core.Test\FenySoft.Core.Test.csproj", "{C8AFFA12-BD37-43AD-B432-7E61A68CD6FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +16,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2E4486F5-1797-4CBF-B224-952A9A31D216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E4486F5-1797-4CBF-B224-952A9A31D216}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E4486F5-1797-4CBF-B224-952A9A31D216}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E4486F5-1797-4CBF-B224-952A9A31D216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E762E22-BA96-4C64-A5F7-02322AEE1953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E762E22-BA96-4C64-A5F7-02322AEE1953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E762E22-BA96-4C64-A5F7-02322AEE1953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E762E22-BA96-4C64-A5F7-02322AEE1953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8AFFA12-BD37-43AD-B432-7E61A68CD6FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8AFFA12-BD37-43AD-B432-7E61A68CD6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8AFFA12-BD37-43AD-B432-7E61A68CD6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8AFFA12-BD37-43AD-B432-7E61A68CD6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3E762E22-BA96-4C64-A5F7-02322AEE1953} = {FD4B889C-7615-4912-904A-23A0362DE1D6}
+		{C8AFFA12-BD37-43AD-B432-7E61A68CD6FF} = {831E6AB7-5ED9-4F16-ACF5-8884CDC4C125}
 	EndGlobalSection
 EndGlobal
