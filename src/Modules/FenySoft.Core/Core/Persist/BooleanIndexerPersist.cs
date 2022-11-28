@@ -2,7 +2,7 @@
 
 namespace FenySoft.Core.Persist
 {
-    public class BooleanIndexerPersist : IIndexerPersist<Boolean>
+    public class BooleanIndexerPersist : ITIndexerPersist<Boolean>
     {
         public const byte VERSION = 40;
 

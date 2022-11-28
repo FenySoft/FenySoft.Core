@@ -6,6 +6,8 @@
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
+
+        <RootNamespace>FenySoft</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

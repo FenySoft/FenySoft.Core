@@ -1,6 +1,6 @@
 ﻿namespace FenySoft.Core.Persist
 {
-    public class TimeSpanIndexerPersist : IIndexerPersist<TimeSpan>
+    public class TimeSpanIndexerPersist : ITIndexerPersist<TimeSpan>
     {
         public const byte VERSION = 40;
 

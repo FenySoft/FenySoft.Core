@@ -2,7 +2,7 @@
 
 namespace FenySoft.Core.Persist
 {
-    public class Int64IndexerPersist : IIndexerPersist<Int64>
+    public class Int64IndexerPersist : ITIndexerPersist<Int64>
     {
         public const byte VERSION = 40;
 
@@ -66,7 +66,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class UInt64IndexerPersist : IIndexerPersist<UInt64>
+    public class UInt64IndexerPersist : ITIndexerPersist<UInt64>
     {
         public const byte VERSION = 40;
 
@@ -88,7 +88,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class Int32IndexerPersist : IIndexerPersist<Int32>
+    public class Int32IndexerPersist : ITIndexerPersist<Int32>
     {
         public const byte VERSION = 40;
 
@@ -110,7 +110,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class UInt32IndexerPersist : IIndexerPersist<UInt32>
+    public class UInt32IndexerPersist : ITIndexerPersist<UInt32>
     {
         public const byte VERSION = 40;
 
@@ -132,7 +132,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class Int16IndexerPersist : IIndexerPersist<Int16>
+    public class Int16IndexerPersist : ITIndexerPersist<Int16>
     {
         public const byte VERSION = 40;
 
@@ -154,7 +154,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class UInt16IndexerPersist : IIndexerPersist<UInt16>
+    public class UInt16IndexerPersist : ITIndexerPersist<UInt16>
     {
         public const byte VERSION = 40;
 
@@ -176,7 +176,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class ByteIndexerPersist : IIndexerPersist<Byte>
+    public class ByteIndexerPersist : ITIndexerPersist<Byte>
     {
         public const byte VERSION = 40;
 
@@ -198,7 +198,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class SByteIndexerPersist : IIndexerPersist<SByte>
+    public class SByteIndexerPersist : ITIndexerPersist<SByte>
     {
         public const byte VERSION = 40;
 
@@ -220,7 +220,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class CharIndexerPersist : IIndexerPersist<Char>
+    public class CharIndexerPersist : ITIndexerPersist<Char>
     {
         public const byte VERSION = 40;
 

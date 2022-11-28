@@ -2,7 +2,7 @@
 
 namespace FenySoft.Core.Persist
 {
-    public class StringIndexerPersist : IIndexerPersist<String>
+    public class StringIndexerPersist : ITIndexerPersist<String>
     {
         public const byte VERSION = 40;
 
@@ -102,7 +102,7 @@ namespace FenySoft.Core.Persist
             }
         }
 
-        public class Raw : IIndexerPersist<String>
+        public class Raw : ITIndexerPersist<String>
         {
             public void Store(BinaryWriter writer, Func<int, string> values, int count)
             {

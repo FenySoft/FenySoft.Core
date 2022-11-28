@@ -9,7 +9,7 @@ namespace FenySoft.Core.Data
           TDataType type2 = TDataType.Int32;
           TDataType type3 = TDataType.String;
 
-          TDataType type4 = TDataType.Slots(
+          TDataType type4 = TDataType.TSlots(
               TDataType.String,
               TDataType.DateTime,
               TDataType.Double,
@@ -21,12 +21,12 @@ namespace FenySoft.Core.Data
           TDataType type6 = TDataType.List(TDataType.String);
           TDataType type7 = TDataType.Dictionary(TDataType.Int32, TDataType.String);
 
-          TDataType type8 = TDataType.Slots(
+          TDataType type8 = TDataType.TSlots(
               TDataType.String,
               TDataType.DateTime,
               TDataType.Double,
               TDataType.Double,
-              TDataType.Slots(
+              TDataType.TSlots(
                   TDataType.String,
                   TDataType.String),
                   TDataType.Array(TDataType.Boolean),
@@ -69,7 +69,7 @@ namespace FenySoft.Core.Data
     }
 
     #endregion
-    
+
     #region Static Methods..
 
     public static TDataType Deserialize(BinaryReader AReader)
@@ -144,7 +144,7 @@ namespace FenySoft.Core.Data
     }
 
     #endregion
-    
+
     #region Fields..
 
     private static readonly Type[] FPrimitiveTypes;
@@ -154,7 +154,7 @@ namespace FenySoft.Core.Data
     private byte[]? FCachedSerialize;
     private readonly TCode FCode;
     private readonly TDataType[]? FTypes;
-    
+
     // ReSharper disable InconsistentNaming
     // ReSharper disable MemberCanBePrivate.Global
     public static readonly TDataType Boolean = new TDataType(TCode.Boolean, null);
@@ -173,6 +173,7 @@ namespace FenySoft.Core.Data
     public static readonly TDataType DateTime = new TDataType(TCode.DateTime, null);
     public static readonly TDataType TimeSpan = new TDataType(TCode.TimeSpan, null);
     public static readonly TDataType String = new TDataType(TCode.String, null);
+
     public static readonly TDataType ByteArray = new TDataType(TCode.ByteArray, null);
     // ReSharper restore MemberCanBePrivate.Global
     // ReSharper restore InconsistentNaming
@@ -204,7 +205,7 @@ namespace FenySoft.Core.Data
       {
         if ((IsPrimitive) || (FTypes == null))
           throw new InvalidOperationException($"The type {this} is primitive");
-        
+
         return FTypes[AIndex];
       }
     }
@@ -215,7 +216,7 @@ namespace FenySoft.Core.Data
       {
         if (IsPrimitive)
           throw new InvalidOperationException($"The type {this} is primitive");
-        
+
         return FTypes?.Length ?? 0;
       }
     }
@@ -295,7 +296,8 @@ namespace FenySoft.Core.Data
       hashcode = 17 * hashcode + (int)FCode;
 
       for (int i = 0; i < FTypes.Length; i++)
-        hashcode = 17 * hashcode + FTypes[i].InternalGetHashCode();
+        hashcode = 17 * hashcode + FTypes[i]
+            .InternalGetHashCode();
 
       return hashcode;
     }
@@ -323,9 +325,10 @@ namespace FenySoft.Core.Data
       AWriter.Write(checked((byte)FTypes.Length));
 
       for (int i = 0; i < FTypes.Length; i++)
-        FTypes[i].InternalSerialize(AWriter);
+        FTypes[i]
+            .InternalSerialize(AWriter);
     }
-    
+
     public bool Equals(TDataType? ADataType)
     {
       if (ReferenceEquals(this, ADataType))
@@ -348,7 +351,8 @@ namespace FenySoft.Core.Data
 
       for (int i = 0; i < types1.Length; i++)
       {
-        if (!types1[i].Equals(types2[i]))
+        if (!types1[i]
+                .Equals(types2[i]))
           return false;
       }
 
@@ -383,7 +387,7 @@ namespace FenySoft.Core.Data
       Debug.Assert(FTypes != null, nameof(FTypes) + " != null");
 
       for (int i = 0; i < FTypes.Length; i++)
-          yield return FTypes[i];
+        yield return FTypes[i];
     }
 
     IEnumerator IEnumerable.GetEnumerator()

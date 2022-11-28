@@ -2,7 +2,7 @@
 
 namespace FenySoft.Core.Persist
 {
-    public class ByteArrayIndexerPersist : IIndexerPersist<Byte[]>
+    public class ByteArrayIndexerPersist : ITIndexerPersist<Byte[]>
     {
         public const byte VERSION = 40;
 

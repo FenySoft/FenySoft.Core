@@ -1,6 +1,6 @@
 ﻿namespace FenySoft.Core.Persist
 {
-    public class DateTimeIndexerPersist : IIndexerPersist<DateTime>
+    public class DateTimeIndexerPersist : ITIndexerPersist<DateTime>
     {
         public const byte VERSION = 40;
         

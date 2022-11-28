@@ -3,7 +3,7 @@ using FenySoft.Core.Mathematics;
 
 namespace FenySoft.Core.Persist
 {
-    public class SingleIndexerPersist : IIndexerPersist<Single>
+    public class SingleIndexerPersist : ITIndexerPersist<Single>
     {
         public const byte VERSION = 40;
 
@@ -86,7 +86,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class DoubleIndexerPersist : IIndexerPersist<Double>
+    public class DoubleIndexerPersist : ITIndexerPersist<Double>
     {
         public const byte VERSION = 40;
 
@@ -168,7 +168,7 @@ namespace FenySoft.Core.Persist
         }
     }
 
-    public class DecimalIndexerPersist : IIndexerPersist<Decimal>
+    public class DecimalIndexerPersist : ITIndexerPersist<Decimal>
     {
         public const byte VERSION = 40;
 
@@ -186,7 +186,7 @@ namespace FenySoft.Core.Persist
             return maxDigits;
         }
 
-        #region IIndexerPersist<decimal> Members
+        #region ITIndexerPersist<decimal> Members
 
         public void Store(BinaryWriter writer, Func<int, decimal> values, int count)
         {

@@ -305,8 +305,8 @@ namespace FenySoft.Core.Extensions
 
             var hasFromAndHasTo = Expression.AndAlso(lowerBoundActive, upperBoundActive);
 
-            var comparer = Expression.Property(set, type.GetProperty("Comparer"));
-            MethodInfo method = type.GetProperty("Comparer").PropertyType.GetMethod("Compare", new Type[] { typeof(T), typeof(T) });
+            var comparer = Expression.Property(set, type.GetProperty("TComparer"));
+            MethodInfo method = type.GetProperty("TComparer").PropertyType.GetMethod("Compare", new Type[] { typeof(T), typeof(T) });
             var call = Expression.Call(comparer, method, lowerValue, upperValue);
 
             var message = Expression.Constant("lowerBound is greater than upperBound", typeof(string));
@@ -323,7 +323,7 @@ namespace FenySoft.Core.Extensions
 
             //public SortedSet<T> GetViewBetween(SortedSet<T> set, T lowerValue, T upperValue, bool lowerBoundActive, bool upperBoundActive)
             //{
-            //   if (lowerBoundActive && upperBoundActive) && set.Comparer.Compare(lowerValue, upperValue) > 0)
+            //   if (lowerBoundActive && upperBoundActive) && set.TComparer.Compare(lowerValue, upperValue) > 0)
             //        throw new ArgumentException("lowerBound is greater than upperBound");
 
             //    return new TreeSubSet(set, lowerValue, upperValue, lowerBoundActive, lowerBoundActive);
@@ -745,7 +745,7 @@ namespace FenySoft.Core.Extensions
         }
 
         /// <summary>
-        /// Elements in array must be ordered and unique from the set.Comparer point of view.
+        /// Elements in array must be ordered and unique from the set.TComparer point of view.
         /// </summary>
         public static void ConstructFromSortedArray<T>(this SortedSet<T> set, T[] array, int index, int count)
         {
