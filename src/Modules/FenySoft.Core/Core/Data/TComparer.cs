@@ -91,7 +91,7 @@ namespace FenySoft.Core.Data
             var field1 = x;
             var field2 = y;
 
-            var invertCompare = compareOption.SortOrder == SortOrder.Descending;
+            var invertCompare = compareOption.SortOrder == TSortOrder.Descending;
 
             if (type == typeof(bool))
             {
@@ -135,17 +135,17 @@ namespace FenySoft.Core.Data
             }
             else if (type == typeof(byte[]))
             {
-                Debug.Assert(compareOption.ByteOrder != ByteOrder.Unspecified);
+                Debug.Assert(compareOption.ByteOrder != TByteOrder.Unspecified);
 
                 var order = compareOption.ByteOrder;
-                var comparerType = (order == ByteOrder.BigEndian) ? typeof(BigEndianByteArrayComparer) : typeof(LittleEndianByteArrayComparer);
+                var comparerType = (order == TByteOrder.BigEndian) ? typeof(TBigEndianByteArrayComparer) : typeof(TLittleEndianByteArrayComparer);
                 var instance = Expression.Field(null, comparerType, "Instance");
                 var compare = comparerType.GetMethod("Compare", new Type[] { typeof(byte[]), typeof(byte[]) });
                 var call = !invertCompare ? Expression.Call(instance, compare, field1, field2) : Expression.Call(instance, compare, field2, field1);
 
                 if (!isLastCompare)
                 {
-                    //cmp = BigEndianByteArrayComparer.Instance.Compare(field1, field2);
+                    //cmp = TBigEndianByteArrayComparer.Instance.Compare(field1, field2);
                     //if (cmp != 0)
                     //    return cmp;
 
@@ -155,7 +155,7 @@ namespace FenySoft.Core.Data
                 }
                 else
                 {
-                    //return BigEndianByteArrayComparer.Instance.Compare(field1, field2); 
+                    //return TBigEndianByteArrayComparer.Instance.Compare(field1, field2); 
 
                     yield return Expression.Label(exitPoint, call);
                 }

@@ -13,13 +13,13 @@ namespace FenySoft.Core.Collections
 
         protected IComparer<TKey> comparer;
         protected IEqualityComparer<TKey> equalityComparer;
-        protected KeyValuePairComparer<TKey, TValue> kvComparer;
+        protected TKeyValuePairComparer<TKey, TValue> kvComparer;
 
         protected TOrderedSet(IComparer<TKey> comparer, IEqualityComparer<TKey> equalityComparer, List<KeyValuePair<TKey, TValue>> list)
         {
             this.comparer = comparer;
             this.equalityComparer = equalityComparer;
-            kvComparer = new KeyValuePairComparer<TKey, TValue>(comparer);
+            kvComparer = new TKeyValuePairComparer<TKey, TValue>(comparer);
 
             this.list = list;
         }
@@ -28,7 +28,7 @@ namespace FenySoft.Core.Collections
         {
             this.comparer = comparer;
             this.equalityComparer = equalityComparer;
-            kvComparer = new KeyValuePairComparer<TKey, TValue>(comparer);
+            kvComparer = new TKeyValuePairComparer<TKey, TValue>(comparer);
 
             this.set = set;
         }

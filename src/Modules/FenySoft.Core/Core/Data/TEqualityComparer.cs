@@ -151,7 +151,7 @@ namespace FenySoft.Core.Data
 
             if (type == typeof(Guid))
             {
-                var equalityComparerType = (compareOption.ByteOrder == ByteOrder.BigEndian) ? typeof(BigEndianByteArrayEqualityComparer) : typeof(LittleEndianByteArrayEqualityComparer);
+                var equalityComparerType = (compareOption.ByteOrder == TByteOrder.BigEndian) ? typeof(TBigEndianByteArrayEqualityComparer) : typeof(TLittleEndianByteArrayEqualityComparer);
                 var call = Expression.Call(x, typeof(Guid).GetMethod("Equals", new Type[] { typeof(Guid) }), y);
 
                 if (isLast)
@@ -163,9 +163,9 @@ namespace FenySoft.Core.Data
 
             if (type == typeof(byte[]))
             {
-                Debug.Assert(compareOption.ByteOrder != ByteOrder.Unspecified);
+                Debug.Assert(compareOption.ByteOrder != TByteOrder.Unspecified);
 
-                var equalityComparerType = (compareOption.ByteOrder == ByteOrder.BigEndian) ? typeof(BigEndianByteArrayEqualityComparer) : typeof(LittleEndianByteArrayEqualityComparer);
+                var equalityComparerType = (compareOption.ByteOrder == TByteOrder.BigEndian) ? typeof(TBigEndianByteArrayEqualityComparer) : typeof(TLittleEndianByteArrayEqualityComparer);
                 var call = Expression.Call(Expression.Field(null, equalityComparerType, "Instance"), equalityComparerType.GetMethod("Equals", new Type[] { typeof(byte[]), typeof(byte[]) }), x, y);
 
                 if (isLast)
@@ -205,7 +205,7 @@ namespace FenySoft.Core.Data
                     return Expression.Label(Expression.Label(typeof(int)), Expression.ExclusiveOr(Expression.Convert(value, typeof(int)), Expression.Convert(Expression.RightShift(value, Expression.Constant(32)), typeof(int))));
 
                 if (type == typeof(byte[]))
-                    return Expression.Call(typeof(ByteArrayExtensions).GetMethod("GetHashCodeEx", new Type[] { typeof(byte[]) }), value);
+                    return Expression.Call(typeof(TByteArrayExtensions).GetMethod("GetHashCodeEx", new Type[] { typeof(byte[]) }), value);
 
                 return Expression.Call(value, type.GetMethod("GetHashCode"));
             }

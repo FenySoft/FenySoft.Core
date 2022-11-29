@@ -7,34 +7,34 @@ namespace FenySoft.Core.Data
 {
     public class TCompareOption : IEquatable<TCompareOption>
     {
-        public readonly SortOrder SortOrder;
-        public readonly ByteOrder ByteOrder;
+        public readonly TSortOrder SortOrder;
+        public readonly TByteOrder ByteOrder;
         public readonly bool IgnoreCase;
 
-        private TCompareOption(SortOrder sortOrder, ByteOrder byteOrder, bool ignoreCase)
+        private TCompareOption(TSortOrder sortOrder, TByteOrder byteOrder, bool ignoreCase)
         {
             SortOrder = sortOrder;
             ByteOrder = byteOrder;
             IgnoreCase = ignoreCase;
         }
 
-        public TCompareOption(SortOrder sortOrder)
-            : this(sortOrder, ByteOrder.Unspecified, false)
+        public TCompareOption(TSortOrder sortOrder)
+            : this(sortOrder, TByteOrder.Unspecified, false)
         {
         }
 
-        public TCompareOption(SortOrder sortOrder, ByteOrder byteOrder)
+        public TCompareOption(TSortOrder sortOrder, TByteOrder byteOrder)
             : this(sortOrder, byteOrder, false)
         {
         }
 
-        public TCompareOption(ByteOrder byteOrder)
-            : this(SortOrder.Ascending, byteOrder)
+        public TCompareOption(TByteOrder byteOrder)
+            : this(TSortOrder.Ascending, byteOrder)
         {
         }
 
-        public TCompareOption(SortOrder sortOrder, bool ignoreCase)
-            : this(sortOrder, ByteOrder.Unspecified, ignoreCase)
+        public TCompareOption(TSortOrder sortOrder, bool ignoreCase)
+            : this(sortOrder, TByteOrder.Unspecified, ignoreCase)
         {
         }
 
@@ -47,8 +47,8 @@ namespace FenySoft.Core.Data
 
         public static TCompareOption Deserialize(BinaryReader reader)
         {
-            var sortOrder = (SortOrder)reader.ReadByte();
-            var byteOrder = (ByteOrder)reader.ReadByte();
+            var sortOrder = (TSortOrder)reader.ReadByte();
+            var byteOrder = (TByteOrder)reader.ReadByte();
             var ignoreCase = reader.ReadBoolean();
 
             return new TCompareOption(sortOrder, byteOrder, ignoreCase);
@@ -64,12 +64,12 @@ namespace FenySoft.Core.Data
         public static TCompareOption GetDefaultCompareOption(Type type)
         {
             if (type == typeof(byte[]))
-                return new TCompareOption(SortOrder.Ascending, ByteOrder.BigEndian);
+                return new TCompareOption(TSortOrder.Ascending, TByteOrder.BigEndian);
 
             if (type == typeof(String))
-                return new TCompareOption(SortOrder.Ascending, false);
+                return new TCompareOption(TSortOrder.Ascending, false);
 
-            return new TCompareOption(SortOrder.Ascending);
+            return new TCompareOption(TSortOrder.Ascending);
         }
 
         public static TCompareOption[] GetDefaultCompareOptions(Type type, Func<Type, MemberInfo, int> memberOrder = null)
@@ -93,17 +93,17 @@ namespace FenySoft.Core.Data
 
             if (type == typeof(string))
             {
-                if (option.ByteOrder != ByteOrder.Unspecified)
+                if (option.ByteOrder != TByteOrder.Unspecified)
                     throw new ArgumentException("String can't have ByteOrder option.");
             }
             else if (type == typeof(byte[]))
             {
-                if (option.ByteOrder == ByteOrder.Unspecified)
+                if (option.ByteOrder == TByteOrder.Unspecified)
                     throw new ArgumentException("byte[] must have ByteOrder option.");
             }
             else
             {
-                if (option.ByteOrder != ByteOrder.Unspecified)
+                if (option.ByteOrder != TByteOrder.Unspecified)
                     throw new ArgumentException(String.Format("{0} does not support ByteOrder option.", type));
             }
         }
@@ -124,12 +124,12 @@ namespace FenySoft.Core.Data
 
         public static TCompareOption Ascending
         {
-            get { return new TCompareOption(SortOrder.Ascending); }
+            get { return new TCompareOption(TSortOrder.Ascending); }
         }
 
         public static TCompareOption Descending
         {
-            get { return new TCompareOption(SortOrder.Descending); }
+            get { return new TCompareOption(TSortOrder.Descending); }
         }
     }
 }

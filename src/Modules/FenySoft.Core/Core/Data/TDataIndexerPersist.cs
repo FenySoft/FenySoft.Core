@@ -114,37 +114,37 @@ namespace FenySoft.Core.Data
         //        actions[0] = () =>
         //        {
         //            streams[0] = new MemoryStream();
-        //            ((StringIndexerPersist)Persists[0]).Store(new BinaryWriter(streams[0]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Symbol, count);
+        //            ((TStringIndexerPersist)Persists[0]).Store(new BinaryWriter(streams[0]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Symbol, count);
         //        };
 
         //        actions[1] = () =>
         //        {
         //            streams[1] = new MemoryStream();
-        //            ((DateTimeIndexerPersist)Persists[1]).Store(new BinaryWriter(streams[1]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Timestamp, count);
+        //            ((TDateTimeIndexerPersist)Persists[1]).Store(new BinaryWriter(streams[1]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Timestamp, count);
         //        };
 
         //        actions[2] = () =>
         //        {
         //            streams[2] = new MemoryStream();
-        //            ((DoubleIndexerPersist)Persists[2]).Store(new BinaryWriter(streams[2]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Ask, count);
+        //            ((TDoubleIndexerPersist)Persists[2]).Store(new BinaryWriter(streams[2]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Ask, count);
         //        };
 
         //        actions[3] = () =>
         //        {
         //            streams[3] = new MemoryStream();
-        //            ((DoubleIndexerPersist)Persists[3]).Store(new BinaryWriter(streams[3]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Bid, count);
+        //            ((TDoubleIndexerPersist)Persists[3]).Store(new BinaryWriter(streams[3]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Bid, count);
         //        };
 
         //        actions[4] = () =>
         //        {
         //            streams[4] = new MemoryStream();
-        //            ((Int64IndexerPersist)Persists[4]).Store(new BinaryWriter(streams[4]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Volume, count);
+        //            ((TInt64IndexerPersist)Persists[4]).Store(new BinaryWriter(streams[4]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Volume, count);
         //        };
 
         //        actions[5] = () =>
         //        {
         //            streams[5] = new MemoryStream();
-        //            ((StringIndexerPersist)Persists[5]).Store(new BinaryWriter(streams[5]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Provider, count);
+        //            ((TStringIndexerPersist)Persists[5]).Store(new BinaryWriter(streams[5]), (idx) => ((Data2<Tick>)values.Invoke(idx)).Value.Provider, count);
         //        };
 
         //        Parallel.Invoke(actions);
@@ -154,7 +154,7 @@ namespace FenySoft.Core.Data
         //            var stream = streams[i];
         //            using (stream)
         //            {
-        //                CountCompression.Serialize(writer, (ulong)stream.Length);
+        //                TCountCompression.Serialize(writer, (ulong)stream.Length);
         //                writer.Write(stream.GetBuffer(), 0, (int)stream.Length);
         //            }
         //        }
@@ -175,7 +175,7 @@ namespace FenySoft.Core.Data
         //        byte[][] buffers = new byte[6][];
 
         //        for (int i = 0; i < 6; i++)
-        //            buffers[i] = reader.ReadBytes((int)CountCompression.Deserialize(reader));
+        //            buffers[i] = reader.ReadBytes((int)TCountCompression.Deserialize(reader));
 
         //        actions[0] = () =>
         //        {

@@ -11,8 +11,4 @@
       <PackageReference Include="System.CodeDom" Version="7.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Core\Communication" />
-    </ItemGroup>
-
 </Project>

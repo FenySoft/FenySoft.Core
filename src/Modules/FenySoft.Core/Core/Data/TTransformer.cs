@@ -148,7 +148,7 @@ namespace FenySoft.Core.Data
 
                 var block = Expression.Block(new ParameterExpression[] { key, value },
                     Expression.Assign(Value1, type2.GetGenericArguments()[0] == typeof(byte[]) ?
-                        Expression.New(type1.GetConstructor(new Type[] { typeof(int), typeof(IEqualityComparer<byte[]>) }), Expression.PropertyOrField(Value2, "Count"), Expression.Field(null, typeof(BigEndianByteArrayEqualityComparer), "Instance")) :
+                        Expression.New(type1.GetConstructor(new Type[] { typeof(int), typeof(IEqualityComparer<byte[]>) }), Expression.PropertyOrField(Value2, "Count"), Expression.Field(null, typeof(TBigEndianByteArrayEqualityComparer), "Instance")) :
                         Expression.New(type1.GetConstructor(new Type[] { typeof(int) }), Expression.PropertyOrField(Value2, "Count"))),
                     Value2.ForEach(current =>
                     Expression.Call(Value1, type1.GetMethod("Add"),

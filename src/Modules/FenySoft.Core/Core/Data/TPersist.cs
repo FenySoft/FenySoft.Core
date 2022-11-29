@@ -228,7 +228,7 @@ namespace FenySoft.Core.Data
             if (type.IsArray || type.IsList())
             {
                 if (!canBeNull)
-                    return Expression.Block(Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.Convert(type.IsArray ? (Expression)Expression.ArrayLength(item) : Expression.Property(item, "Count"), typeof(ulong))),
+                    return Expression.Block(Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.Convert(type.IsArray ? (Expression)Expression.ArrayLength(item) : Expression.Property(item, "Count"), typeof(ulong))),
                         item.For(i =>
                            WriteAssignedOrCurrentVariable(type.IsArray ? Expression.ArrayAccess(item, i) : item.This(i), writer, membersOrder, allowNull), 
                            Expression.Label()));
@@ -236,7 +236,7 @@ namespace FenySoft.Core.Data
                 return Expression.IfThenElse(Expression.NotEqual(item, Expression.Constant(null)),
                     Expression.Block(
                         Expression.Call(writer, typeof(BinaryWriter).GetMethod("Write", new Type[] { typeof(bool) }), Expression.Constant(true)),
-                        Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.Convert(type.IsArray ? (Expression)Expression.ArrayLength(item) : Expression.Property(item, "Count"), typeof(ulong))),
+                        Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.Convert(type.IsArray ? (Expression)Expression.ArrayLength(item) : Expression.Property(item, "Count"), typeof(ulong))),
                         item.For(i =>
                         WriteAssignedOrCurrentVariable(type.IsArray ? Expression.ArrayAccess(item, i) : item.This(i), writer, membersOrder, allowNull),
                         Expression.Label())),
@@ -251,7 +251,7 @@ namespace FenySoft.Core.Data
 
                 if (!canBeNull)
                     return Expression.Block(
-                            Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.Convert(Expression.Property(item, "Count"), typeof(ulong))),
+                            Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.Convert(Expression.Property(item, "Count"), typeof(ulong))),
                             item.ForEach(current =>
                             {
                                 var kv = Expression.Variable(current.Type);
@@ -267,7 +267,7 @@ namespace FenySoft.Core.Data
                 return Expression.IfThenElse(Expression.NotEqual(item, Expression.Constant(null)),
                     Expression.Block(
                         Expression.Call(writer, typeof(BinaryWriter).GetMethod("Write", new Type[] { typeof(bool) }), Expression.Constant(true)),
-                        Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.Convert(Expression.Property(item, "Count"), typeof(ulong))),
+                        Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.Convert(Expression.Property(item, "Count"), typeof(ulong))),
                         item.ForEach(current =>
                         {
                             var kv = Expression.Variable(current.Type);
@@ -398,14 +398,14 @@ namespace FenySoft.Core.Data
 
                 if (!canBeNull)
                     return Expression.Block(
-                            Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(item, "Length"), typeof(ulong))),
+                            Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(item, "Length"), typeof(ulong))),
                             Expression.Call(writer, writeByteArray, item)
                             );
 
                 return Expression.IfThenElse(Expression.NotEqual(item, Expression.Constant(null)),
                         Expression.Block(
                             Expression.Call(writer, typeof(BinaryWriter).GetMethod("Write", new Type[] { typeof(bool) }), Expression.Constant(true)),
-                            Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(item, "Length"), typeof(ulong))),
+                            Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(item, "Length"), typeof(ulong))),
                             Expression.Call(writer, writeByteArray, item)
                             ),
                         Expression.Call(writer, typeof(BinaryWriter).GetMethod("Write", new Type[] { typeof(bool) }), Expression.Constant(false))
@@ -414,7 +414,7 @@ namespace FenySoft.Core.Data
                 //if (buffer != null)
                 //{
                 //    writer.Write(true);
-                //    CountCompression.Serialize(writer, checked((long)buffer.Length));
+                //    TCountCompression.Serialize(writer, checked((long)buffer.Length));
                 //    writer.Write(buffer);
                 //}
                 //else
@@ -477,9 +477,9 @@ namespace FenySoft.Core.Data
                 var lenght = Expression.Variable(typeof(int));
 
                 var block = Expression.Block(
-                    Expression.Assign(lenght, Expression.Convert(Expression.Call(typeof(CountCompression).GetMethod("Deserialize"), reader), typeof(int))),
+                    Expression.Assign(lenght, Expression.Convert(Expression.Call(typeof(TCountCompression).GetMethod("Deserialize"), reader), typeof(int))),
                     itemType.IsDictionary() && itemType.GetGenericArguments()[0] == typeof(byte[]) ?
-                        Expression.Assign(field, Expression.New(field.Type.GetConstructor(new Type[] { typeof(int), typeof(IEqualityComparer<byte[]>) }), lenght, Expression.Field(null, typeof(BigEndianByteArrayEqualityComparer), "Instance"))) :
+                        Expression.Assign(field, Expression.New(field.Type.GetConstructor(new Type[] { typeof(int), typeof(IEqualityComparer<byte[]>) }), lenght, Expression.Field(null, typeof(TBigEndianByteArrayEqualityComparer), "Instance"))) :
                         Expression.Assign(field, Expression.New(field.Type.GetConstructor(new Type[] { typeof(int) }), lenght)),
                     field.For(i =>
                         {
@@ -593,12 +593,12 @@ namespace FenySoft.Core.Data
                 var readBool = typeof(BinaryReader).GetMethod("Read" + typeof(bool).Name);
                 var readBytes = typeof(BinaryReader).GetMethod("ReadBytes");
 
-                var call = Expression.Call(typeof(CountCompression).GetMethod("Deserialize"), reader);
+                var call = Expression.Call(typeof(TCountCompression).GetMethod("Deserialize"), reader);
 
                 if (!canBeNull)
-                    return Expression.Call(reader, readBytes, Expression.Convert(call, typeof(int))); //return reader.ReadBytes((int)CountCompression.Deserialize(reader));
+                    return Expression.Call(reader, readBytes, Expression.Convert(call, typeof(int))); //return reader.ReadBytes((int)TCountCompression.Deserialize(reader));
 
-                //return reader.ReadBoolean() ? reader.ReadBytes((int)CountCompression.Deserialize(reader)) : null;
+                //return reader.ReadBoolean() ? reader.ReadBytes((int)TCountCompression.Deserialize(reader)) : null;
 
                 return Expression.Condition(Expression.Call(reader, readBool), Expression.Call(reader, readBytes, Expression.Convert(call, typeof(int))), Expression.Constant(null, typeof(byte[])));
             }

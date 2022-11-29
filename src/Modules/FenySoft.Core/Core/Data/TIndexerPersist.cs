@@ -116,37 +116,37 @@ namespace FenySoft.Core.Data
         //        actions[0] = () =>
         //        {
         //            streams[0] = new MemoryStream();
-        //            ((StringIndexerPersist)Persists[0]).Store(new BinaryWriter(streams[0]), (idx) => values.Invoke(idx).Symbol, count);
+        //            ((TStringIndexerPersist)Persists[0]).Store(new BinaryWriter(streams[0]), (idx) => values.Invoke(idx).Symbol, count);
         //        };
 
         //        actions[1] = () =>
         //        {
         //            streams[1] = new MemoryStream();
-        //            ((DateTimeIndexerPersist)Persists[1]).Store(new BinaryWriter(streams[1]), (idx) => values.Invoke(idx).Timestamp, count);
+        //            ((TDateTimeIndexerPersist)Persists[1]).Store(new BinaryWriter(streams[1]), (idx) => values.Invoke(idx).Timestamp, count);
         //        };
 
         //        actions[2] = () =>
         //        {
         //            streams[2] = new MemoryStream();
-        //            ((DoubleIndexerPersist)Persists[2]).Store(new BinaryWriter(streams[2]), (idx) => values.Invoke(idx).Ask, count);
+        //            ((TDoubleIndexerPersist)Persists[2]).Store(new BinaryWriter(streams[2]), (idx) => values.Invoke(idx).Ask, count);
         //        };
 
         //        actions[3] = () =>
         //        {
         //            streams[3] = new MemoryStream();
-        //            ((DoubleIndexerPersist)Persists[3]).Store(new BinaryWriter(streams[3]), (idx) => values.Invoke(idx).Bid, count);
+        //            ((TDoubleIndexerPersist)Persists[3]).Store(new BinaryWriter(streams[3]), (idx) => values.Invoke(idx).Bid, count);
         //        };
 
         //        actions[4] = () =>
         //        {
         //            streams[4] = new MemoryStream();
-        //            ((Int64IndexerPersist)Persists[5]).Store(new BinaryWriter(streams[4]), (idx) => values.Invoke(idx).Volume, count);
+        //            ((TInt64IndexerPersist)Persists[5]).Store(new BinaryWriter(streams[4]), (idx) => values.Invoke(idx).Volume, count);
         //        };
 
         //        actions[5] = () =>
         //        {
         //            streams[5] = new MemoryStream();
-        //            ((StringIndexerPersist)Persists[5]).Store(new BinaryWriter(streams[5]), (idx) => values.Invoke(idx).Provider, count);
+        //            ((TStringIndexerPersist)Persists[5]).Store(new BinaryWriter(streams[5]), (idx) => values.Invoke(idx).Provider, count);
         //        };
 
         //        Parallel.Invoke(actions);
@@ -156,7 +156,7 @@ namespace FenySoft.Core.Data
         //            var stream = streams[i];
         //            using (stream)
         //            {
-        //                CountCompression.Serialize(writer, (ulong)stream.Length);
+        //                TCountCompression.Serialize(writer, (ulong)stream.Length);
         //                writer.Write(stream.GetBuffer(), 0, (int)stream.Length);
         //            }
         //        }
@@ -176,7 +176,7 @@ namespace FenySoft.Core.Data
         //        byte[][] buffers = new byte[6][];
 
         //        for (int i = 0; i < 6; i++)
-        //            buffers[i] = reader.ReadBytes((int)CountCompression.Deserialize(reader));
+        //            buffers[i] = reader.ReadBytes((int)TCountCompression.Deserialize(reader));
 
         //        actions[0] = () =>
         //        {
@@ -238,7 +238,7 @@ namespace FenySoft.Core.Data
             list.Add(buffers.For(i =>
                 Expression.Assign(Expression.ArrayAccess(buffers, i),
                     Expression.Call(reader, typeof(BinaryReader).GetMethod("ReadBytes"),
-                        Expression.Convert(Expression.Call(typeof(CountCompression).GetMethod("Deserialize"), reader), typeof(int)))), Expression.Label(), Expression.Constant(countOfType))
+                        Expression.Convert(Expression.Call(typeof(TCountCompression).GetMethod("Deserialize"), reader), typeof(int)))), Expression.Label(), Expression.Constant(countOfType))
                     );
 
             var ms = Expression.Variable(typeof(MemoryStream));
@@ -274,7 +274,7 @@ namespace FenySoft.Core.Data
         {
             List<Expression> list = new List<Expression>();
             var buffers = Expression.Variable(typeof(byte[]));
-            list.Add(Expression.Assign(buffers, Expression.Call(reader, typeof(BinaryReader).GetMethod("ReadBytes"), Expression.Convert(Expression.Call(typeof(CountCompression).GetMethod("Deserialize"), reader), typeof(int)))));
+            list.Add(Expression.Assign(buffers, Expression.Call(reader, typeof(BinaryReader).GetMethod("ReadBytes"), Expression.Convert(Expression.Call(typeof(TCountCompression).GetMethod("Deserialize"), reader), typeof(int)))));
 
             var ms = Expression.Variable(typeof(MemoryStream));
             var idx = Expression.Variable(typeof(int), "idx");
@@ -308,7 +308,7 @@ namespace FenySoft.Core.Data
                 return ms.Using(Expression.Block(
                         Expression.Assign(ms, Expression.New(typeof(MemoryStream).GetConstructor(new Type[] { }))),
                         Expression.Call(persist, persist.Type.GetMethod("Store"), Expression.New(typeof(BinaryWriter).GetConstructor(new Type[] { typeof(MemoryStream) }), ms), func, count),
-                        Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(ms, "Length"), typeof(ulong))),
+                        Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(ms, "Length"), typeof(ulong))),
                         Expression.Call(writer, typeof(BinaryWriter).GetMethod("Write", new Type[] { typeof(byte[]), typeof(int), typeof(int) }),
                             Expression.Call(ms, typeof(MemoryStream).GetMethod("GetBuffer")), Expression.Constant(0), Expression.Convert(Expression.Property(ms, "Length"), typeof(int)))
                     ));
@@ -348,7 +348,7 @@ namespace FenySoft.Core.Data
 
                         return stream.Using(Expression.Block(
                                Expression.Assign(stream, Expression.ArrayAccess(streams, i)),
-                               Expression.Call(typeof(CountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(stream, "Length"), typeof(ulong))),
+                               Expression.Call(typeof(TCountCompression).GetMethod("Serialize"), writer, Expression.ConvertChecked(Expression.Property(stream, "Length"), typeof(ulong))),
                                Expression.Call(writer, typeof(BinaryWriter).GetMethod("Write", new Type[] { typeof(byte[]), typeof(int), typeof(int) }),
                                    Expression.Call(stream, typeof(MemoryStream).GetMethod("GetBuffer")), Expression.Constant(0), Expression.Convert(Expression.Property(stream, "Length"), typeof(int)))
                             ));
@@ -375,39 +375,39 @@ namespace FenySoft.Core.Data
         private static IIndexerPersist GetDefaultPersist(Type type)
         {
             if (type == typeof(bool))
-                return new BooleanIndexerPersist();
+                return new TBooleanIndexerPersist();
             if (type == typeof(char))
-                return new CharIndexerPersist();
+                return new TCharIndexerPersist();
             if (type == typeof(byte))
-                return new ByteIndexerPersist();
+                return new TByteIndexerPersist();
             if (type == typeof(sbyte))
-                return new SByteIndexerPersist();
+                return new TSByteIndexerPersist();
             if (type == typeof(Int16))
-                return new Int16IndexerPersist();
+                return new TInt16IndexerPersist();
             if (type == typeof(UInt16))
-                return new UInt16IndexerPersist();
+                return new TUInt16IndexerPersist();
             if (type == typeof(Int32))
-                return new Int32IndexerPersist();
+                return new TInt32IndexerPersist();
             if (type == typeof(UInt32))
-                return new UInt32IndexerPersist();
+                return new TUInt32IndexerPersist();
             if (type == typeof(Int64))
-                return new Int64IndexerPersist();
+                return new TInt64IndexerPersist();
             if (type == typeof(UInt64))
-                return new UInt64IndexerPersist();
+                return new TUInt64IndexerPersist();
             if (type == typeof(Single))
-                return new SingleIndexerPersist();
+                return new TSingleIndexerPersist();
             if (type == typeof(Double))
-                return new DoubleIndexerPersist();
+                return new TDoubleIndexerPersist();
             if (type == typeof(Decimal))
-                return new DecimalIndexerPersist();
+                return new TDecimalIndexerPersist();
             if (type == typeof(String))
-                return new StringIndexerPersist();
+                return new TStringIndexerPersist();
             if (type == typeof(DateTime))
-                return new DateTimeIndexerPersist();
+                return new TDateTimeIndexerPersist();
             if (type == typeof(TimeSpan))
                 return new TimeSpanIndexerPersist();
             if (type == typeof(byte[]))
-                return new ByteArrayIndexerPersist();
+                return new TByteArrayIndexerPersist();
 
             throw new NotSupportedException(type.ToString());
         }

@@ -101,7 +101,7 @@ namespace FenySoft.Core.Data
 
                 if (member.Type == typeof(byte[]))
                 {
-                    var toHexMethod = typeof(ByteArrayExtensions).GetMethod("ToHex", new Type[] { typeof(byte[]) });
+                    var toHexMethod = typeof(TByteArrayExtensions).GetMethod("ToHex", new Type[] { typeof(byte[]) });
                     callToString = Expression.Call(toHexMethod, member);
                 }
                 else if (member.Type == typeof(TimeSpan))
@@ -142,7 +142,7 @@ namespace FenySoft.Core.Data
 
             if (member.Type == typeof(byte[]))
             {
-                var toHexMethod = typeof(ByteArrayExtensions).GetMethod("ToHex", new Type[] { typeof(byte[]) });
+                var toHexMethod = typeof(TByteArrayExtensions).GetMethod("ToHex", new Type[] { typeof(byte[]) });
                 callToString = Expression.Call(toHexMethod, member);
             }
             else if (member.Type == typeof(TimeSpan))
@@ -178,7 +178,7 @@ namespace FenySoft.Core.Data
                 }
                 else if (member.Type == typeof(byte[]))
                 {
-                    var hexParse = typeof(StringExtensions).GetMethod("ParseHex", new Type[] { typeof(string) });
+                    var hexParse = typeof(TStringExtensions).GetMethod("ParseHex", new Type[] { typeof(string) });
                     value = Expression.Call(hexParse, stringParam);
                 }
                 else if (member.Type == typeof(char))
@@ -221,7 +221,7 @@ namespace FenySoft.Core.Data
             }
             else if (member.Type == typeof(byte[]))
             {
-                var hexParse = typeof(StringExtensions).GetMethod("ParseHex", new Type[] { typeof(string) });
+                var hexParse = typeof(TStringExtensions).GetMethod("ParseHex", new Type[] { typeof(string) });
                 value = Expression.Call(hexParse, sValue);
             }
             else if (member.Type == typeof(char))
